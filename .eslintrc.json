@@ -1,0 +1,12 @@
+{
+    "plugins": ["prettier"],
+    "extends": ["airbnb", "eslint:recommended", "plugin:prettier/recommended", "prettier"],
+    "rules": {
+      "prettier/prettier": "error",
+      "react/prop-types": "off",
+      "react/react-in-jsx-scope": "off",
+      "react/jsx-props-no-spreading": "off",
+      "arrow-body-style": "off",
+      "prefer-arrow-callback": "off"
+    }
+  }

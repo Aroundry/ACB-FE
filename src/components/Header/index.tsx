@@ -14,6 +14,7 @@ export const LoginPageHeader = () => {
 };
 
 const HeaderWrapper = styled.div`
+  position: absolute;
   display: flex;
   background-color: #fff;
   width: 1920px;

@@ -1,34 +1,29 @@
-import { LoginPageHeader } from '@components/Header';
-import IntroductionPhrase from '@components/IntroductionPhrase';
-import LoginForm from '@components/LoginForm';
+import { ReceptionPageHeader } from '@components/Header';
+import Navigation from '@components/Navigation';
+import ReceptionStatus from '@components/ReceptionStatus';
 import styled from '@emotion/styled';
 
 export default function Home() {
   return (
-    <>
-      <LoginPageWrapper>
-        <LoginPageHeader />
-        <BodyWrapper>
-          <LoginForm />
-          <IntroductionPhrase />
-        </BodyWrapper>
-      </LoginPageWrapper>
-    </>
+    <ReceptionPageWrapper>
+      <ReceptionPageHeader />
+      <Navigation />
+      <BodyWrapper>
+        <ReceptionStatus />
+      </BodyWrapper>
+    </ReceptionPageWrapper>
   );
 }
 
-const LoginPageWrapper = styled.div`
+const ReceptionPageWrapper = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   width: 100vw;
   height: 100vh;
   background-color: #f2f4f6;
 `;
 
 const BodyWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 1440px;
-  height: 100vh;
+  box-sizing: border-box;
+  margin: 103px 24px 24px 24px;
 `;

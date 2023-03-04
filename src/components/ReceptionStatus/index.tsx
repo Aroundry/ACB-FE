@@ -7,8 +7,12 @@ import ReceptionStatusTable from './ReceptionStatusTable';
 import LeftArrow from '@icons/LeftArrow.png';
 import RightArrow from '@icons/RightArrow.png';
 import Check from '@icons/Check.png';
+import useOpenModal from '@components/Modal/useOpenModal';
+import Modal from '@components/Modal';
 
 const ReceptionStatus = () => {
+  const { isOpenModal, clickModal, closeModal } = useOpenModal();
+
   return (
     <Wrapper>
       <Title>접수현황</Title>
@@ -22,7 +26,7 @@ const ReceptionStatus = () => {
             <Image src={Delete} alt="삭제하기" />
             삭제하기
           </DeleteButton>
-          <DetailButton>
+          <DetailButton onClick={clickModal}>
             <Image src={Detail} alt="상세정보 보기" />
             상세정보 보기
           </DetailButton>
@@ -46,6 +50,8 @@ const ReceptionStatus = () => {
         <Image src={Check} alt="체크" />
         접수완료
       </ReceptionCompleteButton>
+
+      {isOpenModal && <Modal closeModal={closeModal} />}
     </Wrapper>
   );
 };
@@ -165,6 +171,8 @@ const DetailButton = styled(DeleteButton)`
   border-radius: 7px;
 
   color: #8585ff;
+
+  cursor: pointer;
 `;
 
 const PaginationWrapper = styled.div`

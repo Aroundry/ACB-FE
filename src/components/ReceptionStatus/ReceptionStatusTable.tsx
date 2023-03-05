@@ -3,6 +3,7 @@ import {
   receptionDataAtom,
   receptionDetailDataAtom,
   receptionCompleteAtom,
+  deleteObjectFromListAtom,
 } from '@atoms/reception';
 import { useSetRecoilState, useRecoilValue, useRecoilState } from 'recoil';
 import { useState, useEffect } from 'react';
@@ -14,6 +15,9 @@ const ReceptionStatusTable = () => {
   );
   const [receptionComplete, setReceptionComplete] = useRecoilState(
     receptionCompleteAtom
+  );
+  const [deleteObjectFromList, setDeleteObjectFromList] = useRecoilState(
+    deleteObjectFromListAtom
   );
   const receptionData = useRecoilValue(receptionDataAtom);
   const [isClick, setIsClick] = useState('');
@@ -53,7 +57,7 @@ const ReceptionStatusTable = () => {
   }, []);
 
   useEffect(() => {
-    if (receptionComplete === true) {
+    if (receptionComplete === true || deleteObjectFromList === true) {
       setReceptionData(
         receptionData.filter(
           (it) =>
@@ -62,8 +66,9 @@ const ReceptionStatusTable = () => {
         )
       );
       setReceptionComplete(false);
+      setDeleteObjectFromList(false);
     }
-  }, [receptionComplete]);
+  }, [receptionComplete, deleteObjectFromList]);
 
   return (
     <Wrapper>

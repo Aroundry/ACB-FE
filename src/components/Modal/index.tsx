@@ -1,14 +1,20 @@
 import styled from '@emotion/styled';
+import ConfirmModal from './ConfirmModal';
 import ReceptionDetailModal from './ReceptionDetailModal';
 
 export interface Props {
   closeModal: () => void;
+  species?: string;
 }
-const Modal = ({ closeModal }: Props) => {
+const Modal = ({ closeModal, species }: Props) => {
   return (
     <ModalWrap>
       <ModalBackGround onClick={closeModal} />
-      <ReceptionDetailModal closeModal={closeModal} />
+      {species === 'ReceptionDetail' ? (
+        <ReceptionDetailModal closeModal={closeModal} />
+      ) : (
+        <ConfirmModal closeModal={closeModal} />
+      )}
     </ModalWrap>
   );
 };
@@ -25,22 +31,6 @@ const ModalBackGround = styled.div`
   position: absolute;
   bottom: 0;
   left: 0;
-`;
-
-const ModalContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border-radius: 2rem;
-  gap: 2rem;
-  padding: 3.6rem 0;
-  border: 1px solid var(--color-white);
-  background-color: var(--color-white);
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 90%;
 `;
 
 export default Modal;

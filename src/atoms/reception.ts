@@ -33,4 +33,14 @@ const receptionCompleteAtom = atom<boolean>({
   default: false,
 });
 
-export { receptionDataAtom, receptionDetailDataAtom, receptionCompleteAtom };
+const deleteObjectFromListAtom = atom<boolean>({
+  key: 'deleteObjectFromList',
+  default: false,
+});
+
+export {
+  receptionDataAtom,
+  receptionDetailDataAtom,
+  receptionCompleteAtom,
+  deleteObjectFromListAtom,
+};

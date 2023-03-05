@@ -9,9 +9,29 @@ import RightArrow from '@icons/RightArrow.png';
 import Check from '@icons/Check.png';
 import useOpenModal from '@components/Modal/useOpenModal';
 import Modal from '@components/Modal';
+import { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import { receptionCompleteAtom } from '@atoms/reception';
 
 const ReceptionStatus = () => {
-  const { isOpenModal, clickModal, closeModal } = useOpenModal();
+  const {
+    isOpenReceptionDetailModal,
+    clickReceptionDetailModal,
+    closeReceptionDetailModal,
+    isOpenConfirmModal,
+    clickConfirmModal,
+    closeConfirmModal,
+  } = useOpenModal();
+  const receptionComplete = useRecoilValue(receptionCompleteAtom);
+  const [isToastMessageVisible, setIsToastMessageVisible] = useState(false);
+
+  useEffect(() => {
+    if (receptionComplete === false) return;
+    setIsToastMessageVisible(true);
+    const timer = setTimeout(() => {
+      setIsToastMessageVisible(false);
+    }, 3000);
+  }, [receptionComplete]);
 
   return (
     <Wrapper>
@@ -22,11 +42,11 @@ const ReceptionStatus = () => {
           <SearchInput placeholder="검색"></SearchInput>
         </SearchWrapper>
         <DeleteAndDetailButtonWrapper>
-          <DeleteButton>
+          <DeleteButton onClick={clickConfirmModal}>
             <Image src={Delete} alt="삭제하기" />
             삭제하기
           </DeleteButton>
-          <DetailButton onClick={clickModal}>
+          <DetailButton onClick={clickReceptionDetailModal}>
             <Image src={Detail} alt="상세정보 보기" />
             상세정보 보기
           </DetailButton>
@@ -50,8 +70,21 @@ const ReceptionStatus = () => {
         <Image src={Check} alt="체크" />
         접수완료
       </ReceptionCompleteButton>
-
-      {isOpenModal && <Modal closeModal={closeModal} />}
+      {isToastMessageVisible && (
+        <ToastMessage>
+          <Image src={Check} alt="체크" />
+          접수가 완료되었습니다.
+        </ToastMessage>
+      )}
+      {isOpenReceptionDetailModal && (
+        <Modal
+          closeModal={closeReceptionDetailModal}
+          species="ReceptionDetail"
+        />
+      )}
+      {isOpenConfirmModal && (
+        <Modal closeModal={closeConfirmModal} species="Confirm" />
+      )}
     </Wrapper>
   );
 };
@@ -161,6 +194,8 @@ const DeleteButton = styled.div`
   font-size: 20px;
   line-height: 24px;
 
+  cursor: pointer;
+
   color: #ff0000;
 `;
 
@@ -171,8 +206,6 @@ const DetailButton = styled(DeleteButton)`
   border-radius: 7px;
 
   color: #8585ff;
-
-  cursor: pointer;
 `;
 
 const PaginationWrapper = styled.div`
@@ -223,7 +256,7 @@ const ReceptionCompleteButton = styled.button`
   bottom: 40px;
 
   border: none;
-  cursor: pointer;
+  cursor: default;
   background: #d1d6db;
   border-radius: 7px;
 
@@ -234,6 +267,46 @@ const ReceptionCompleteButton = styled.button`
   line-height: 29px;
 
   color: #ffffff;
+`;
+
+const ToastMessage = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  gap: 16px;
+
+  position: absolute;
+  width: 435px;
+  height: 61px;
+  bottom: 40px;
+
+  background: #00a300;
+  border-radius: 7px;
+
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+
+  color: #ffffff;
+
+  animation: toastAnimation 3s 1;
+
+  @keyframes toastAnimation {
+    0% {
+      opacity: 0;
+    }
+    37% {
+      opacity: 1;
+    }
+    60% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
 `;
 
 export default ReceptionStatus;

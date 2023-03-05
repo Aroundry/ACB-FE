@@ -1,12 +1,30 @@
 import { useState } from 'react';
 
 export default function useOpenModal() {
-  const [isOpenModal, setIsOpenModal] = useState(false);
-  const clickModal = () => {
-    setIsOpenModal(true);
+  const [isOpenReceptionDetailModal, setIsOpenReceptionDetailModal] =
+    useState(false);
+  const [isOpenConfirmModal, setIsConfirmModal] = useState(false);
+
+  const clickReceptionDetailModal = () => {
+    setIsOpenReceptionDetailModal(true);
   };
-  const closeModal = () => {
-    setIsOpenModal(false);
+  const closeReceptionDetailModal = () => {
+    setIsOpenReceptionDetailModal(false);
   };
-  return { isOpenModal, clickModal, closeModal };
+
+  const clickConfirmModal = () => {
+    setIsConfirmModal(true);
+  };
+  const closeConfirmModal = () => {
+    setIsConfirmModal(false);
+  };
+
+  return {
+    isOpenReceptionDetailModal,
+    clickReceptionDetailModal,
+    closeReceptionDetailModal,
+    isOpenConfirmModal,
+    clickConfirmModal,
+    closeConfirmModal,
+  };
 }

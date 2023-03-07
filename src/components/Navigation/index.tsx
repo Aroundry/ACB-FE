@@ -1,15 +1,18 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import Logout from '@icons/Logout.png';
+import Link from 'next/link';
 
 const Navigation = () => {
   return (
     <NavigationWrapper>
       <NavigationItem>접수현황</NavigationItem>
-      <LogoutButton>
-        <Image src={Logout} alt="로그아웃" />
-        <LogoutButtonText>로그아웃</LogoutButtonText>
-      </LogoutButton>
+      <Link href={'/Login'}>
+        <LogoutButton>
+          <Image src={Logout} alt="로그아웃" />
+          <LogoutButtonText>로그아웃</LogoutButtonText>
+        </LogoutButton>
+      </Link>
     </NavigationWrapper>
   );
 };

@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import Link from 'next/link';
 
 const LoginForm = () => {
   return (
@@ -8,13 +9,18 @@ const LoginForm = () => {
         <LoginFormLabel>아이디</LoginFormLabel>
         <LoginFormInput placeholder="아이디 입력"></LoginFormInput>
         <LoginFormLabel>비밀번호</LoginFormLabel>
-        <LoginFormInput placeholder="비밀번호 입력"></LoginFormInput>
+        <LoginFormInput
+          type="password"
+          placeholder="비밀번호 입력"
+        ></LoginFormInput>
       </LoginFormBox>
       <AutoLoginWrapper>
         <AutoLoginButton></AutoLoginButton>
         <AutoLoginText>자동로그인</AutoLoginText>
       </AutoLoginWrapper>
-      <LoginButton>로그인</LoginButton>
+      <Link href={'/'}>
+        <LoginButton>로그인</LoginButton>
+      </Link>
     </LoginFormWrapper>
   );
 };

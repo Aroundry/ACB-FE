@@ -6,10 +6,13 @@ import {
   deleteObjectFromListAtom,
 } from '@atoms/reception';
 import { useSetRecoilState, useRecoilValue, useRecoilState } from 'recoil';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import MiniX from '@icons/MiniX.png';
+import Image from 'next/image';
 
 const ReceptionStatusTable = () => {
   const setReceptionData = useSetRecoilState(receptionDataAtom);
+  const [clickItemName, setClickItemName] = useState('');
   const [receptionDetailData, setReceptionDetailData] = useRecoilState(
     receptionDetailDataAtom
   );
@@ -21,6 +24,7 @@ const ReceptionStatusTable = () => {
   );
   const receptionData = useRecoilValue(receptionDataAtom);
   const [isClick, setIsClick] = useState('');
+
   const dummyDataList = [
     {
       name: '권상욱',
@@ -45,9 +49,54 @@ const ReceptionStatusTable = () => {
       name: '윤현지',
       number: '010-2146-4136',
       address: '씨즈건대힐스 1102호',
-      receptionItem: '정바지 1개',
+      receptionItem: '청바지 1개',
+      date: '2022-02-07 오후 01시 00분',
+      request: '동전 확인해주세요',
+      status: 'show',
+    },
+    {
+      name: '오경식',
+      number: '010-5472-4136',
+      address: '청구아파트 1102호',
+      receptionItem: '청바지 2개',
       date: '2022-02-07 오후 01시 00분',
       request: '',
+      status: 'show',
+    },
+    {
+      name: '박충현',
+      number: '010-5472-4136',
+      address: '청구아파트 1102호',
+      receptionItem: '청바지 2개',
+      date: '2022-02-07 오후 01시 00분',
+      request: '',
+      status: 'show',
+    },
+    {
+      name: '박중식',
+      number: '010-5472-4136',
+      address: '청구아파트 1102호',
+      receptionItem: '청바지 2개',
+      date: '2022-02-07 오후 01시 00분',
+      request: '',
+      status: 'show',
+    },
+    {
+      name: '김현석',
+      number: '010-5472-4136',
+      address: '청구아파트 1102호',
+      receptionItem: '청바지 2개',
+      date: '2022-02-07 오후 01시 00분',
+      request: '',
+      status: 'show',
+    },
+    {
+      name: '박태완',
+      number: '010-5472-4136',
+      address: '청구아파트 1102호',
+      receptionItem: '청바지 2개',
+      date: '2022-02-07 오후 01시 00분',
+      request: '하이',
       status: 'show',
     },
   ];
@@ -61,8 +110,9 @@ const ReceptionStatusTable = () => {
       setReceptionData(
         receptionData.filter(
           (it) =>
-            it.number != receptionDetailData.number &&
-            it.receptionItem != receptionDetailData.receptionItem
+            it.number != receptionDetailData.number ||
+            it.receptionItem != receptionDetailData.receptionItem ||
+            it.name != receptionDetailData.name
         )
       );
       setReceptionComplete(false);
@@ -84,13 +134,16 @@ const ReceptionStatusTable = () => {
         .filter((it) => it.status === 'show')
         .map((it) => {
           return (
+            // 추후에 key 추가예정
             <TableItemWrapper
               onClick={() => {
-                setIsClick(`${it.name}`);
+                setIsClick(
+                  `${it.name} ${it.number} ${it.address} ${it.receptionItem}`
+                );
                 setReceptionDetailData(it);
               }}
               title={isClick}
-              theme={it.name}
+              theme={`${it.name} ${it.number} ${it.address} ${it.receptionItem}`}
             >
               <TableNameText>{it.name}</TableNameText>
               <TableNumberText>{it.number}</TableNumberText>
@@ -109,7 +162,38 @@ const ReceptionStatusTable = () => {
               <TableDateText>{it.date}</TableDateText>
               {it.request ? (
                 <TableRequestWrapper>
-                  <TableRequestButton>요청사항</TableRequestButton>
+                  <TableRequestButton
+                    onClick={() => {
+                      setClickItemName(
+                        `${it.name} ${it.number} ${it.address} ${it.receptionItem}`
+                      );
+                    }}
+                  >
+                    요청사항
+                  </TableRequestButton>
+                  {`${it.name} ${it.number} ${it.address} ${it.receptionItem}` ===
+                    clickItemName && (
+                    <RequestBoardWrapper>
+                      <RequestBoardBackGround
+                        onClick={() => {
+                          setClickItemName('');
+                        }}
+                      ></RequestBoardBackGround>
+                      <RequestBoard>
+                        <RequestTitleWrapper>
+                          <RequestBoardTitle>요청사항</RequestBoardTitle>
+                          <Image
+                            src={MiniX}
+                            alt="X"
+                            onClick={() => {
+                              setClickItemName('');
+                            }}
+                          />
+                        </RequestTitleWrapper>
+                        <RequestBoardText>{it.request}</RequestBoardText>
+                      </RequestBoard>
+                    </RequestBoardWrapper>
+                  )}
                 </TableRequestWrapper>
               ) : (
                 ''
@@ -233,6 +317,78 @@ const TableRequestButton = styled.button`
   color: #ffffff;
 
   cursor: pointer;
+`;
+
+const RequestBoardWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+`;
+
+const RequestBoardBackGround = styled.div`
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0);
+  width: 100%;
+  height: 100vh;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+`;
+
+const RequestBoard = styled.div`
+  z-index: 2;
+  position: absolute;
+  width: 376px;
+  height: 500px;
+
+  right: 180px;
+  top: 260px;
+
+  background: #d1d6db;
+  border-radius: 7px;
+
+  padding: 16px;
+
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.25);
+`;
+
+const RequestTitleWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+`;
+
+const RequestBoardTitle = styled.div`
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+
+  color: #333d4b;
+
+  margin-bottom: 8px;
+`;
+
+const RequestBoardText = styled.div`
+  padding: 12px;
+
+  width: 344px;
+  height: calc(500px - 64px);
+
+  background: #f9fafb;
+  box-shadow: 0px 0px 3px rgba(229, 232, 235, 0.25);
+  border-radius: 7px;
+
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 140%;
+
+  color: #4e5968;
 `;
 
 export default ReceptionStatusTable;

@@ -25,6 +25,7 @@ const ModalWrap = styled.div`
 `;
 
 const ModalBackGround = styled.div`
+  z-index: 3;
   background-color: rgba(0, 0, 0, 0.6);
   width: 100%;
   height: 100vh;

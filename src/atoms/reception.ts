@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 
-interface receptionDataTypes {
+interface ReceptionDataTypes {
   name: string;
   number: string;
   address: string;
@@ -10,12 +10,12 @@ interface receptionDataTypes {
   status: string;
 }
 
-const receptionDataAtom = atom<receptionDataTypes[]>({
+const receptionDataAtom = atom<ReceptionDataTypes[]>({
   key: 'receptionData',
   default: [],
 });
 
-const receptionDetailDataAtom = atom<receptionDataTypes>({
+const receptionDetailDataAtom = atom<ReceptionDataTypes>({
   key: 'receptionDetailData',
   default: {
     name: '',

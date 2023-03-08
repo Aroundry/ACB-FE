@@ -6,7 +6,7 @@ import {
   deleteObjectFromListAtom,
 } from '@atoms/reception';
 import { useSetRecoilState, useRecoilValue, useRecoilState } from 'recoil';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import MiniX from '@icons/MiniX.png';
 import Image from 'next/image';
 
@@ -52,51 +52,6 @@ const ReceptionStatusTable = () => {
       receptionItem: '청바지 1개',
       date: '2022-02-07 오후 01시 00분',
       request: '동전 확인해주세요',
-      status: 'show',
-    },
-    {
-      name: '오경식',
-      number: '010-5472-4136',
-      address: '청구아파트 1102호',
-      receptionItem: '청바지 2개',
-      date: '2022-02-07 오후 01시 00분',
-      request: '',
-      status: 'show',
-    },
-    {
-      name: '박충현',
-      number: '010-5472-4136',
-      address: '청구아파트 1102호',
-      receptionItem: '청바지 2개',
-      date: '2022-02-07 오후 01시 00분',
-      request: '',
-      status: 'show',
-    },
-    {
-      name: '박중식',
-      number: '010-5472-4136',
-      address: '청구아파트 1102호',
-      receptionItem: '청바지 2개',
-      date: '2022-02-07 오후 01시 00분',
-      request: '',
-      status: 'show',
-    },
-    {
-      name: '김현석',
-      number: '010-5472-4136',
-      address: '청구아파트 1102호',
-      receptionItem: '청바지 2개',
-      date: '2022-02-07 오후 01시 00분',
-      request: '',
-      status: 'show',
-    },
-    {
-      name: '박태완',
-      number: '010-5472-4136',
-      address: '청구아파트 1102호',
-      receptionItem: '청바지 2개',
-      date: '2022-02-07 오후 01시 00분',
-      request: '하이',
       status: 'show',
     },
   ];

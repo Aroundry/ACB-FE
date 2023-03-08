@@ -28,7 +28,7 @@ const ReceptionStatus = () => {
   useEffect(() => {
     if (receptionComplete === false) return;
     setIsToastMessageVisible(true);
-    const timer = setTimeout(() => {
+    setTimeout(() => {
       setIsToastMessageVisible(false);
     }, 3000);
   }, [receptionComplete]);

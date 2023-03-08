@@ -40,6 +40,7 @@ const ConfirmModal = ({ closeModal }: Props) => {
 };
 
 const Wrapper = styled.div`
+  z-index: 4;
   position: absolute;
 
   top: 50%;

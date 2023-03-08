@@ -1,9 +1,13 @@
-import { receptionDetailDataAtom } from '@atoms/reception';
+import {
+  receptionDetailDataAtom,
+  receptionCompleteAtom,
+} from '@atoms/reception';
 import styled from '@emotion/styled';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import Image from 'next/image';
 import Check from '@icons/Check.png';
-import { receptionCompleteAtom } from '@atoms/reception';
+import Copy from '@icons/Copy.png';
+import { useState } from 'react';
 
 export interface Props {
   closeModal: () => void;
@@ -12,22 +16,82 @@ export interface Props {
 const ReceptionDetailModal = ({ closeModal }: Props) => {
   const receptionDetailData = useRecoilValue(receptionDetailDataAtom);
   const setReceptionComplete = useSetRecoilState(receptionCompleteAtom);
+  const [isCopySuccess, setIsCopySuccess] = useState(false);
+
+  const handleCopyClipBoard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setIsCopySuccess(true);
+    } catch (e) {
+      setIsCopySuccess(false);
+    }
+  };
 
   return (
     <Wrapper>
       <Title>상세정보</Title>
       <PropsTitle>이름</PropsTitle>
-      <PropsBoldText>{receptionDetailData.name}</PropsBoldText>
+      <PropsBoldText
+        onClick={() => {
+          handleCopyClipBoard(receptionDetailData.name);
+          console.log(isCopySuccess);
+        }}
+      >
+        {receptionDetailData.name}
+        <Image src={Copy} alt="복사" />
+      </PropsBoldText>
       <PropsTitle>전화번호</PropsTitle>
-      <PropsNomalText>{receptionDetailData.number}</PropsNomalText>
+      <PropsNomalText
+        onClick={() => {
+          handleCopyClipBoard(receptionDetailData.number);
+          console.log(isCopySuccess);
+        }}
+      >
+        {receptionDetailData.number}
+        <Image src={Copy} alt="복사" />
+      </PropsNomalText>
       <PropsTitle>주소</PropsTitle>
-      <PropsNomalText>{receptionDetailData.address}</PropsNomalText>
+      <PropsNomalText
+        onClick={() => {
+          handleCopyClipBoard(receptionDetailData.address);
+        }}
+      >
+        {receptionDetailData.address}
+        <Image src={Copy} alt="복사" />
+      </PropsNomalText>
       <PropsTitle>접수품목</PropsTitle>
-      <PropsNomalText>{receptionDetailData.receptionItem}</PropsNomalText>
+      <PropsNomalText
+        onClick={() => {
+          handleCopyClipBoard(receptionDetailData.receptionItem);
+        }}
+      >
+        {receptionDetailData.receptionItem.split(',', 100).map((it) => (
+          <>
+            {it}
+            <br />
+          </>
+        ))}
+        <Image src={Copy} alt="복사" />
+      </PropsNomalText>
       <PropsTitle>수거요청 날짜 및 시간</PropsTitle>
-      <PropsBoldText>{receptionDetailData.date}</PropsBoldText>
+      <PropsBoldText
+        onClick={() => {
+          handleCopyClipBoard(receptionDetailData.date);
+        }}
+      >
+        {receptionDetailData.date}
+        <Image src={Copy} alt="복사" />
+      </PropsBoldText>
       <PropsTitle>요청사항</PropsTitle>
-      <PropsNomalText>{receptionDetailData.request}</PropsNomalText>
+      <PropsNomalText
+        onClick={() => {
+          handleCopyClipBoard(receptionDetailData.request);
+        }}
+      >
+        {receptionDetailData.request}
+        {!receptionDetailData.request && <div></div>}
+        <Image src={Copy} alt="복사" />
+      </PropsNomalText>
       <ReceptionCompleteButton
         onClick={() => {
           closeModal();
@@ -42,6 +106,7 @@ const ReceptionDetailModal = ({ closeModal }: Props) => {
 };
 
 const Wrapper = styled.div`
+  z-index: 4;
   background-color: #fff;
   position: absolute;
   top: 0;
@@ -96,11 +161,14 @@ const PropsBoldText = styled.div`
   line-height: 24px;
 
   color: #000000;
+  cursor: pointer;
 `;
 
 const PropsNomalText = styled(PropsBoldText)`
+  display: flex;
+  justify-content: space-between;
   font-weight: 500;
-
+  cursor: pointer;
   color: #333d4b;
 `;
 

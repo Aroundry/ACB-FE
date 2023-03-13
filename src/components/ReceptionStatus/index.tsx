@@ -10,8 +10,14 @@ import Check from '@icons/Check.png';
 import useOpenModal from '@components/Modal/useOpenModal';
 import Modal from '@components/Modal';
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
-import { receptionCompleteAtom } from '@atoms/reception';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import {
+  deleteObjectFromListAtom,
+  receptionCompleteAtom,
+  receptionDataAtom,
+  receptionDetailDataAtom,
+  ReceptionDataTypes,
+} from '@atoms/reception';
 
 const ReceptionStatus = () => {
   const {
@@ -22,8 +28,195 @@ const ReceptionStatus = () => {
     clickConfirmModal,
     closeConfirmModal,
   } = useOpenModal();
-  const receptionComplete = useRecoilValue(receptionCompleteAtom);
+  const [receptionData, setReceptionData] = useRecoilState(receptionDataAtom);
+  const [receptionComplete, setReceptionComplete] = useRecoilState(
+    receptionCompleteAtom
+  );
+  const [deleteObjectFromList, setDeleteObjectFromList] = useRecoilState(
+    deleteObjectFromListAtom
+  );
+  const receptionDetailData = useRecoilValue(receptionDetailDataAtom);
   const [isToastMessageVisible, setIsToastMessageVisible] = useState(false);
+  const [SearchText, setSearchText] = useState('');
+  const [searchData, setSearchData]: any = useState();
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchText(e.target.value);
+  };
+  const handleOnEnter = (name: string) => {
+    if (name === '') {
+      setDeleteObjectFromList(!deleteObjectFromList);
+      setSearchData(undefined);
+      return;
+    }
+    setSearchData(
+      receptionData.filter(
+        (it) =>
+          it.name.includes(name) ||
+          it.address.includes(name) ||
+          it.number.includes(name)
+      )
+    );
+  };
+  const handleOnKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleOnEnter(SearchText);
+    }
+  };
+  const tableDataList = (datalist: ReceptionDataTypes[]) => {
+    if (searchData) {
+      return searchData.slice(offset, offset + limit);
+    } else return datalist.slice(offset, offset + limit);
+  };
+
+  const [page, setPage] = useState(1); //페이지
+  const limit = 10; // posts가 보일 최대한의 갯수
+  const offset = (page - 1) * limit; // 시작점과 끝점을 구하는 offset
+  const [isLeftArrowAvailable, setIsLeftArrowAvailable] = useState(''); // pagination의 활성화 여부 판단
+  const [isRightArrowAvailable, setIsRightArrowAvailable] = useState('');
+
+  const dummyDataList = [
+    {
+      name: '권상욱',
+      number: '010-4641-1242',
+      address: '세종대학교 학생회관 518호',
+      receptionItem: '티셔츠 1개, 신발 4개, 코트 1개, 청바지 2개, 패딩 2개',
+      date: '2022-02-08 오후 02시 30분',
+      request:
+        '코트에 얼룩이 있습니다. 드라이 부탁드립니다. 나머지는 세탁해주세요.',
+      status: 'show',
+    },
+    {
+      name: '권동석',
+      number: '010-4722-3462',
+      address: '세종대학교 301호',
+      receptionItem: '코트 1개, 신발 1개, 패딩 1개',
+      date: '2022-02-07 오후 06시 30분',
+      request: '',
+      status: 'show',
+    },
+    {
+      name: '윤현지',
+      number: '010-2146-4136',
+      address: '세종대학교 1102호',
+      receptionItem: '청바지 1개',
+      date: '2022-02-07 오후 01시 00분',
+      request: '동전 확인해주세요',
+      status: 'show',
+    },
+    {
+      name: '주이식',
+      number: '010-4641-1242',
+      address: '세종대학교 학생회관 518호',
+      receptionItem: '티셔츠 1개, 신발 4개, 코트 1개, 청바지 2개, 패딩 2개',
+      date: '2022-02-08 오후 02시 30분',
+      request:
+        '코트에 얼룩이 있습니다. 드라이 부탁드립니다. 나머지는 세탁해주세요.',
+      status: 'show',
+    },
+    {
+      name: '오경식',
+      number: '010-4722-3462',
+      address: '세종대학교 301호',
+      receptionItem: '코트 1개, 신발 1개, 패딩 1개',
+      date: '2022-02-07 오후 06시 30분',
+      request: '',
+      status: 'show',
+    },
+    {
+      name: '박태완',
+      number: '010-2146-4136',
+      address: '세종대학교 1102호',
+      receptionItem: '청바지 1개',
+      date: '2022-02-07 오후 01시 00분',
+      request: '동전 확인해주세요',
+      status: 'show',
+    },
+    {
+      name: '임근택',
+      number: '010-4641-1242',
+      address: '세종대학교 학생회관 518호',
+      receptionItem: '티셔츠 1개, 신발 4개, 코트 1개, 청바지 2개, 패딩 2개',
+      date: '2022-02-08 오후 02시 30분',
+      request:
+        '코트에 얼룩이 있습니다. 드라이 부탁드립니다. 나머지는 세탁해주세요.',
+      status: 'show',
+    },
+    {
+      name: '김우혁',
+      number: '010-4722-3462',
+      address: '세종대학교 301호',
+      receptionItem: '코트 1개, 신발 1개, 패딩 1개',
+      date: '2022-02-07 오후 06시 30분',
+      request: '',
+      status: 'show',
+    },
+    {
+      name: '김정호',
+      number: '010-2146-4136',
+      address: '세종대학교 1102호',
+      receptionItem: '청바지 1개',
+      date: '2022-02-07 오후 01시 00분',
+      request: '동전 확인해주세요',
+      status: 'show',
+    },
+    {
+      name: '허인주',
+      number: '010-4641-1242',
+      address: '세종대학교 학생회관 518호',
+      receptionItem: '티셔츠 1개, 신발 4개, 코트 1개, 청바지 2개, 패딩 2개',
+      date: '2022-02-08 오후 02시 30분',
+      request:
+        '코트에 얼룩이 있습니다. 드라이 부탁드립니다. 나머지는 세탁해주세요.',
+      status: 'show',
+    },
+    {
+      name: '김동균',
+      number: '010-4722-3462',
+      address: '세종대학교 301호',
+      receptionItem: '코트 1개, 신발 1개, 패딩 1개',
+      date: '2022-02-07 오후 06시 30분',
+      request: '',
+      status: 'show',
+    },
+    {
+      name: '이병무',
+      number: '010-2146-4136',
+      address: '세화빌딩 1102호',
+      receptionItem: '청바지 1개',
+      date: '2022-02-07 오후 01시 00분',
+      request: '동전 확인해주세요',
+      status: 'show',
+    },
+  ];
+
+  let id: number = -1;
+
+  useEffect(() => {
+    setPage(1);
+    setIsLeftArrowAvailable('false');
+    if (searchData) {
+      if (searchData.length < 10) {
+        setIsRightArrowAvailable('false');
+      } else {
+        setIsRightArrowAvailable('true');
+      }
+    }
+  }, [searchData]);
+
+  useEffect(() => {
+    id = -1;
+    let dummy = dummyDataList.map((it) => {
+      id++;
+      return { ...it, id: id };
+    });
+    setReceptionData(dummy);
+  }, []);
+
+  useEffect(() => {
+    if (receptionData.length > 10) setIsRightArrowAvailable('true');
+    else setIsRightArrowAvailable('false');
+  }, [receptionData]);
 
   useEffect(() => {
     if (receptionComplete === false) return;
@@ -33,13 +226,37 @@ const ReceptionStatus = () => {
     }, 3000);
   }, [receptionComplete]);
 
+  useEffect(() => {
+    id = -1;
+    if (receptionComplete === true || deleteObjectFromList === true) {
+      setReceptionData(
+        receptionData
+          .filter(
+            (it) =>
+              it.number != receptionDetailData.number ||
+              it.receptionItem != receptionDetailData.receptionItem ||
+              it.name != receptionDetailData.name
+          )
+          .map((it) => {
+            id++;
+            return { ...it, id: id };
+          })
+      );
+      setReceptionComplete(false);
+      setDeleteObjectFromList(false);
+    }
+  }, [receptionComplete, deleteObjectFromList]);
   return (
     <Wrapper>
       <Title>접수현황</Title>
       <Floor>
         <SearchWrapper>
           <Image src={Search} alt="검색" />
-          <SearchInput placeholder="검색"></SearchInput>
+          <SearchInput
+            placeholder="검색"
+            onChange={onChange}
+            onKeyDown={handleOnKeyPress}
+          ></SearchInput>
         </SearchWrapper>
         <DeleteAndDetailButtonWrapper>
           <DeleteButton onClick={clickConfirmModal}>
@@ -52,17 +269,37 @@ const ReceptionStatus = () => {
           </DetailButton>
         </DeleteAndDetailButtonWrapper>
       </Floor>
-      <ReceptionStatusTable />
+      <ReceptionStatusTable tableData={tableDataList(receptionData)} />
       <PaginationWrapper>
-        <PaginationArrow>
+        <PaginationArrow
+          title={isLeftArrowAvailable}
+          onClick={() => {
+            if (page < 2) return;
+            if (page === 2) setIsLeftArrowAvailable('false');
+            setIsRightArrowAvailable('true');
+            setPage(page - 1);
+          }}
+        >
           <Image src={LeftArrow} alt="뒤" />
         </PaginationArrow>
-        <PaginationNumber title="true">1</PaginationNumber>
-        <PaginationNumber>2</PaginationNumber>
-        <PaginationNumber>3</PaginationNumber>
-        <PaginationNumber>4</PaginationNumber>
-        <PaginationNumber>5</PaginationNumber>
-        <PaginationArrow title="true">
+        <PaginationArrow
+          title={isRightArrowAvailable}
+          onClick={() => {
+            if (searchData) {
+              if (searchData[page * 10] === undefined) return;
+              if (searchData[(page + 1) * 10] === undefined)
+                setIsRightArrowAvailable('false');
+              setIsLeftArrowAvailable('true');
+              setPage(page + 1);
+            } else {
+              if (receptionData[page * 10] === undefined) return;
+              if (receptionData[(page + 1) * 10] === undefined)
+                setIsRightArrowAvailable('false');
+              setIsLeftArrowAvailable('true');
+              setPage(page + 1);
+            }
+          }}
+        >
           <Image src={RightArrow} alt="앞" />
         </PaginationArrow>
       </PaginationWrapper>
@@ -92,6 +329,7 @@ const ReceptionStatus = () => {
 const Wrapper = styled.div`
   width: 1632px;
   height: calc(100vh - 128px);
+  min-height: 800px;
 
   padding: 16px;
 
@@ -229,18 +467,7 @@ const PaginationArrow = styled.div`
 
   background-color: ${(props) =>
     props.title === 'true' ? '#8585FF' : '#D1D6DB'};
-`;
-
-const PaginationNumber = styled(PaginationArrow)`
-  font-family: 'Pretendard';
-  font-style: normal;
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 24px;
-
-  color: ${(props) => (props.title === 'true' ? '#fff' : '#333d4b')};
-  background-color: ${(props) => (props.title === 'true' ? '#8585FF' : '#fff')};
-  border-radius: ${(props) => (props.title === 'true' ? '50%' : 'none')};
+  cursor: ${(props) => (props.title === 'true' ? 'pointer' : 'default')};
 `;
 
 const ReceptionCompleteButton = styled.button`

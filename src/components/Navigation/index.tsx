@@ -24,6 +24,7 @@ const NavigationWrapper = styled.div`
 
   width: 240px;
   height: 100vh;
+  min-height: 945px;
 
   bottom: auto;
   background-color: #fff;

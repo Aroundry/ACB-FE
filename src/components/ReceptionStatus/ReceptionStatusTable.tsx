@@ -1,80 +1,29 @@
 import styled from '@emotion/styled';
-import {
-  receptionDataAtom,
-  receptionDetailDataAtom,
-  receptionCompleteAtom,
-  deleteObjectFromListAtom,
-} from '@atoms/reception';
-import { useSetRecoilState, useRecoilValue, useRecoilState } from 'recoil';
-import { useState, useEffect } from 'react';
+import { receptionDataAtom, receptionDetailDataAtom } from '@atoms/reception';
+import { useSetRecoilState, useRecoilValue } from 'recoil';
+import { useState } from 'react';
 import MiniX from '@icons/MiniX.png';
 import Image from 'next/image';
 
-const ReceptionStatusTable = () => {
-  const setReceptionData = useSetRecoilState(receptionDataAtom);
+interface ReceptionDataTypes {
+  id: number;
+  name: string;
+  number: string;
+  address: string;
+  receptionItem: string;
+  date: string;
+  request: string;
+  status: string;
+}
+
+interface Pros {
+  tableData: ReceptionDataTypes[];
+}
+
+const ReceptionStatusTable = ({ tableData }: Pros) => {
   const [clickItemName, setClickItemName] = useState('');
-  const [receptionDetailData, setReceptionDetailData] = useRecoilState(
-    receptionDetailDataAtom
-  );
-  const [receptionComplete, setReceptionComplete] = useRecoilState(
-    receptionCompleteAtom
-  );
-  const [deleteObjectFromList, setDeleteObjectFromList] = useRecoilState(
-    deleteObjectFromListAtom
-  );
-  const receptionData = useRecoilValue(receptionDataAtom);
+  const setReceptionDetailData = useSetRecoilState(receptionDetailDataAtom);
   const [isClick, setIsClick] = useState('');
-
-  const dummyDataList = [
-    {
-      name: '권상욱',
-      number: '010-4641-1242',
-      address: '세종대학교 학생회관 518호',
-      receptionItem: '티셔츠 1개, 신발 4개, 코트 1개, 청바지 2개, 패딩 2개',
-      date: '2022-02-08 오후 02시 30분',
-      request:
-        '코트에 얼룩이 있습니다. 드라이 부탁드립니다. 나머지는 세탁해주세요.',
-      status: 'show',
-    },
-    {
-      name: '권동석',
-      number: '010-4722-3462',
-      address: '세화빌딩 301호',
-      receptionItem: '코트 1개, 신발 1개, 패딩 1개',
-      date: '2022-02-07 오후 06시 30분',
-      request: '',
-      status: 'show',
-    },
-    {
-      name: '윤현지',
-      number: '010-2146-4136',
-      address: '씨즈건대힐스 1102호',
-      receptionItem: '청바지 1개',
-      date: '2022-02-07 오후 01시 00분',
-      request: '동전 확인해주세요',
-      status: 'show',
-    },
-  ];
-
-  useEffect(() => {
-    setReceptionData(dummyDataList);
-  }, []);
-
-  useEffect(() => {
-    if (receptionComplete === true || deleteObjectFromList === true) {
-      setReceptionData(
-        receptionData.filter(
-          (it) =>
-            it.number != receptionDetailData.number ||
-            it.receptionItem != receptionDetailData.receptionItem ||
-            it.name != receptionDetailData.name
-        )
-      );
-      setReceptionComplete(false);
-      setDeleteObjectFromList(false);
-    }
-  }, [receptionComplete, deleteObjectFromList]);
-
   return (
     <Wrapper>
       <TableHeader>
@@ -85,7 +34,7 @@ const ReceptionStatusTable = () => {
         <TableDateTitle>수거요청 날짜 및 시간</TableDateTitle>
         <TableRequestTitle>요청사항</TableRequestTitle>
       </TableHeader>
-      {receptionData
+      {tableData
         .filter((it) => it.status === 'show')
         .map((it) => {
           return (
@@ -163,7 +112,7 @@ const ReceptionStatusTable = () => {
 const Wrapper = styled.div`
   box-sizing: border-box;
   width: 1600px;
-  height: calc(100vh - 350px);
+  height: 585px;
 
   border: 1px solid #d1d6db;
 `;
@@ -296,7 +245,7 @@ const RequestBoard = styled.div`
   z-index: 2;
   position: absolute;
   width: 376px;
-  height: 500px;
+  height: 560px;
 
   right: 180px;
   top: 260px;
@@ -331,7 +280,7 @@ const RequestBoardText = styled.div`
   padding: 12px;
 
   width: 344px;
-  height: calc(500px - 64px);
+  height: calc(560px - 64px);
 
   background: #f9fafb;
   box-shadow: 0px 0px 3px rgba(229, 232, 235, 0.25);

@@ -7,7 +7,7 @@ const Navigation = () => {
   return (
     <NavigationWrapper>
       <NavigationItem>접수현황</NavigationItem>
-      <Link href={'/Login'}>
+      <Link href={'/login'}>
         <LogoutButton>
           <Image src={Logout} alt="로그아웃" />
           <LogoutButtonText>로그아웃</LogoutButtonText>

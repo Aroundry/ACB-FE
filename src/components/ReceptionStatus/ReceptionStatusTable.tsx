@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
-import { receptionDataAtom, receptionDetailDataAtom } from '@atoms/reception';
-import { useSetRecoilState, useRecoilValue } from 'recoil';
+import { receptionDetailDataAtom } from '@atoms/reception';
+import { useSetRecoilState } from 'recoil';
 import { useState } from 'react';
 import MiniX from '@icons/MiniX.png';
 import Image from 'next/image';

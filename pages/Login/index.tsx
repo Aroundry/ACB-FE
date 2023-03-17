@@ -3,7 +3,7 @@ import IntroductionPhrase from '@components/IntroductionPhrase';
 import LoginForm from '@components/LoginForm';
 import styled from '@emotion/styled';
 
-export default function Login() {
+export default function login() {
   return (
     <>
       <LoginPageWrapper>

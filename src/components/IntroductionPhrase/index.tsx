@@ -59,6 +59,11 @@ const Wrapper = styled.div`
   justify-content: space-between;
   width: 621px;
   height: 381px;
+
+  @media screen and (max-width: 1600px) {
+    width: 590px;
+    height: 360px;
+  }
 `;
 
 const IntroductionPhraseItem = styled.div`
@@ -83,6 +88,11 @@ const TextWrapper = styled.div`
   justify-content: space-between;
   width: 470px;
   height: 80px;
+
+  @media screen and (max-width: 1600px) {
+    width: 410px;
+    height: 66px;
+  }
 `;
 
 const Text = styled.div`
@@ -93,6 +103,11 @@ const Text = styled.div`
   line-height: 29px;
 
   color: #333d4b;
+
+  @media screen and (max-width: 1600px) {
+    font-size: 20px;
+    line-height: 24px;
+  }
 `;
 
 const EmphasisText = styled.div`
@@ -105,6 +120,11 @@ const EmphasisText = styled.div`
   color: #000000;
 
   margin-right: 10px;
+
+  @media screen and (max-width: 1600px) {
+    font-size: 32px;
+    line-height: 38px;
+  }
 `;
 
 const TextFloor = styled.div`

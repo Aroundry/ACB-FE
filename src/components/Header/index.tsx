@@ -31,7 +31,7 @@ const LoginHeaderWrapper = styled.div`
   position: absolute;
   display: flex;
   background-color: #fff;
-  width: 1920px;
+  width: 100vw;
   height: 80px;
 `;
 
@@ -46,6 +46,9 @@ const Text = styled.div`
   font-weight: 700;
   font-size: 32px;
   line-height: 38px;
+  @media screen and (max-width: 1600px) {
+    font-size: 26px;
+  }
 `;
 
 const PageTitle = styled(Text)`

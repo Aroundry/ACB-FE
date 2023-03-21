@@ -28,6 +28,11 @@ const NavigationWrapper = styled.div`
 
   bottom: auto;
   background-color: #fff;
+
+  @media screen and (max-width: 1600px) {
+    width: 180px;
+    min-height: 790px;
+  }
 `;
 
 const NavigationItem = styled.div`
@@ -37,7 +42,6 @@ const NavigationItem = styled.div`
 
   margin-top: 80px;
   width: 240px;
-  height: 61px;
 
   border-left: 10px solid #0000cd;
 
@@ -48,6 +52,11 @@ const NavigationItem = styled.div`
   line-height: 29px;
 
   color: #333d4b;
+
+  @media screen and (max-width: 1600px) {
+    font-size: 20px;
+    line-height: 24px;
+  }
 `;
 
 const LogoutButton = styled.div`
@@ -63,6 +72,13 @@ const LogoutButton = styled.div`
   padding: 12px 36px;
 
   border: 1px solid #8585ff;
+
+  @media screen and (max-width: 1600px) {
+    width: 148px;
+    height: 35px;
+
+    padding: 12px 24px;
+  }
 `;
 
 const LogoutButtonText = styled.div`
@@ -84,6 +100,11 @@ const LogoutButtonText = styled.div`
   text-align: center;
 
   color: #8585ff;
+
+  @media screen and (max-width: 1600px) {
+    font-size: 16px;
+    line-height: 19px;
+  }
 `;
 
 export default Navigation;

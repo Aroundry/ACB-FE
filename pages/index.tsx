@@ -21,6 +21,12 @@ const ReceptionPageWrapper = styled.div`
   width: 100vw;
   height: 100vh;
   background-color: #f2f4f6;
+
+  overflow: auto;
+  white-space: nowrap;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const BodyWrapper = styled.div`

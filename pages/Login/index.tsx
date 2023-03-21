@@ -31,4 +31,8 @@ const BodyWrapper = styled.div`
   align-items: center;
   width: 1440px;
   height: 100vh;
+
+  @media screen and (max-width: 1600px) {
+    width: 1240px;
+  }
 `;

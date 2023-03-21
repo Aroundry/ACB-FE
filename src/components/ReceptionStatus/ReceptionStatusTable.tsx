@@ -27,7 +27,7 @@ const ReceptionStatusTable = ({ tableData }: Pros) => {
   return (
     <Wrapper>
       <TableHeader>
-        <TableNameTitle></TableNameTitle>
+        <TableNameTitle>이름</TableNameTitle>
         <TableNumberTitle>전화번호</TableNumberTitle>
         <TableAddressTitle>주소</TableAddressTitle>
         <TableReceptionItemTitle>접수품목</TableReceptionItemTitle>
@@ -115,6 +115,11 @@ const Wrapper = styled.div`
   height: 585px;
 
   border: 1px solid #d1d6db;
+
+  @media screen and (max-width: 1600px) {
+    width: 1348px;
+    height: 446px;
+  }
 `;
 
 const TableHeader = styled.div`
@@ -126,6 +131,11 @@ const TableHeader = styled.div`
   background: #f2f4f6;
 
   border-bottom: 1px solid #8b95a1;
+
+  @media screen and (max-width: 1600px) {
+    width: 1346px;
+    height: 40px;
+  }
 `;
 
 const TableNameTitle = styled.div`
@@ -144,26 +154,49 @@ const TableNameTitle = styled.div`
   color: #4e5968;
 
   padding: 12px 16px;
+
+  @media screen and (max-width: 1600px) {
+    width: 197px;
+    height: 40px;
+
+    font-size: 20px;
+    line-height: 24px;
+  }
 `;
 
 const TableNumberTitle = styled(TableNameTitle)`
   width: 253px;
+  @media screen and (max-width: 1600px) {
+    width: 207px;
+  }
 `;
 
 const TableAddressTitle = styled(TableNumberTitle)`
   width: 391px;
+  @media screen and (max-width: 1600px) {
+    width: 325px;
+  }
 `;
 
 const TableReceptionItemTitle = styled(TableNumberTitle)`
   width: 227px;
+  @media screen and (max-width: 1600px) {
+    width: 197px;
+  }
 `;
 
 const TableDateTitle = styled(TableNumberTitle)`
   width: 370px;
+  @media screen and (max-width: 1600px) {
+    width: 320px;
+  }
 `;
 
 const TableRequestTitle = styled(TableNumberTitle)`
   width: 128px;
+  @media screen and (max-width: 1600px) {
+    width: 100px;
+  }
 `;
 
 const TableItemWrapper = styled(TableHeader)`
@@ -256,6 +289,11 @@ const RequestBoard = styled.div`
   padding: 16px;
 
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.25);
+
+  @media screen and (max-width: 1600px) {
+    top: 240px;
+    height: calc(500px - 70px);
+  }
 `;
 
 const RequestTitleWrapper = styled.div`
@@ -293,6 +331,12 @@ const RequestBoardText = styled.div`
   line-height: 140%;
 
   color: #4e5968;
+  overflow-x: hidden;
+  white-space: normal;
+
+  @media screen and (max-width: 1600px) {
+    height: calc(430px - 64px);
+  }
 `;
 
 export default ReceptionStatusTable;

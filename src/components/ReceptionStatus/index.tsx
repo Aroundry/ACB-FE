@@ -193,6 +193,15 @@ const ReceptionStatus = () => {
   let id: number = -1;
 
   useEffect(() => {
+    id = -1;
+    let dummy = dummyDataList.map((it) => {
+      id++;
+      return { ...it, id: id };
+    });
+    setReceptionData(dummy);
+  }, []);
+
+  useEffect(() => {
     setPage(1);
     setIsLeftArrowAvailable('false');
     if (searchData) {
@@ -203,15 +212,6 @@ const ReceptionStatus = () => {
       }
     }
   }, [searchData]);
-
-  useEffect(() => {
-    id = -1;
-    let dummy = dummyDataList.map((it) => {
-      id++;
-      return { ...it, id: id };
-    });
-    setReceptionData(dummy);
-  }, []);
 
   useEffect(() => {
     if (receptionData.length > 10) setIsRightArrowAvailable('true');
@@ -336,6 +336,13 @@ const Wrapper = styled.div`
   background-color: #fff;
   border: 1px solid #d1d6d8;
   border-radius: 7px;
+
+  @media screen and (max-width: 1600px) {
+    width: 1372px;
+    min-height: 600px;
+
+    padding: 12px;
+  }
 `;
 
 const Title = styled.div`
@@ -350,6 +357,12 @@ const Title = styled.div`
 
   color: #4e5968;
   margin-bottom: 18px;
+
+  @media screen and (max-width: 1600px) {
+    font-size: 20px;
+    line-height: 24px;
+    margin-bottom: 0px;
+  }
 `;
 
 const Floor = styled.div`
@@ -364,13 +377,15 @@ const SearchWrapper = styled.div`
   display: flex;
   align-items: center;
   width: 531px;
-  height: 48px;
 
   border: 1px solid #e5e8eb;
   box-shadow: 0px 0px 3px rgba(229, 232, 235, 0.25);
   border-radius: 7px;
 
   padding-left: 13px;
+  @media screen and (max-width: 1600px) {
+    width: 244px;
+  }
 `;
 
 const SearchInput = styled.input`
@@ -403,13 +418,30 @@ const SearchInput = styled.input`
   :focus {
     outline: none;
   }
+
+  @media screen and (max-width: 1600px) {
+    width: 200px;
+    height: 33px;
+
+    font-size: 16px;
+    line-height: 19px;
+
+    ::placeholder {
+      font-size: 16px;
+      line-height: 19px;
+    }
+  }
 `;
 
 const DeleteAndDetailButtonWrapper = styled.div`
   display: flex;
   justify-content: space-between;
 
-  width: 400px;
+  width: 390px;
+
+  @media screen and (max-width: 1600px) {
+    width: 300px;
+  }
 `;
 
 const DeleteButton = styled.div`
@@ -435,6 +467,14 @@ const DeleteButton = styled.div`
   cursor: pointer;
 
   color: #ff0000;
+
+  @media screen and (max-width: 1600px) {
+    width: 128px;
+    height: 35px;
+
+    font-size: 16px;
+    line-height: 19px;
+  }
 `;
 
 const DetailButton = styled(DeleteButton)`
@@ -444,6 +484,10 @@ const DetailButton = styled(DeleteButton)`
   border-radius: 7px;
 
   color: #8585ff;
+
+  @media screen and (max-width: 1600px) {
+    width: 158px;
+  }
 `;
 
 const PaginationWrapper = styled.div`
@@ -451,7 +495,7 @@ const PaginationWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
 
-  width: 278px;
+  width: 210px;
   height: 32px;
 
   margin: 32px auto;
@@ -494,6 +538,14 @@ const ReceptionCompleteButton = styled.button`
   line-height: 29px;
 
   color: #ffffff;
+
+  @media screen and (max-width: 1600px) {
+    width: 168px;
+    height: 48px;
+
+    font-size: 20px;
+    line-height: 24px;
+  }
 `;
 
 const ToastMessage = styled.div`

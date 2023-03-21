@@ -87,6 +87,7 @@ const ReceptionDetailModal = ({ closeModal }: Props) => {
         onClick={() => {
           handleCopyClipBoard(receptionDetailData.request);
         }}
+        title={receptionDetailData.request.length.toString()}
       >
         {receptionDetailData.request}
         {!receptionDetailData.request && <div></div>}
@@ -162,6 +163,9 @@ const PropsBoldText = styled.div`
 
   color: #000000;
   cursor: pointer;
+
+  overflow-x: hidden;
+  white-space: normal;
 `;
 
 const PropsNomalText = styled(PropsBoldText)`
@@ -196,6 +200,17 @@ const ReceptionCompleteButton = styled.button`
   line-height: 29px;
 
   color: #ffffff;
+
+  @media screen and (max-width: 1600px) {
+    width: 170px;
+    height: 40px;
+
+    font-size: 18px;
+    line-height: 24px;
+
+    right: 25px;
+    bottom: 20px;
+  }
 `;
 
 export default ReceptionDetailModal;

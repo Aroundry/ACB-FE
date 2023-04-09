@@ -1,18 +1,32 @@
 import styled from '@emotion/styled';
 import Image from 'next/image';
 import Logout from '@icons/Logout.png';
-import Link from 'next/link';
+import { useRouter } from 'next/router';
+import useHttpGet from 'src/hooks/http/useHttpGet';
+import useLogout from 'src/hooks/useLogout';
 
 const Navigation = () => {
+  const router = useRouter();
+  const { get } = useHttpGet();
+  const logout = useLogout();
+  const onClickLogout = async () => {
+    try {
+      await get('/auth/logout');
+      logout();
+      router.replace('/login');
+    } catch (error: any) {
+      console.log(error);
+      alert(error.message);
+    }
+  };
+
   return (
     <NavigationWrapper>
       <NavigationItem>접수현황</NavigationItem>
-      <Link href={'/login'}>
-        <LogoutButton>
-          <Image src={Logout} alt="로그아웃" />
-          <LogoutButtonText>로그아웃</LogoutButtonText>
-        </LogoutButton>
-      </Link>
+      <LogoutButton onClick={onClickLogout}>
+        <Image src={Logout} alt="로그아웃" />
+        <LogoutButtonText>로그아웃</LogoutButtonText>
+      </LogoutButton>
     </NavigationWrapper>
   );
 };
@@ -72,6 +86,8 @@ const LogoutButton = styled.div`
   padding: 12px 36px;
 
   border: 1px solid #8585ff;
+
+  cursor: pointer;
 
   @media screen and (max-width: 1600px) {
     width: 148px;

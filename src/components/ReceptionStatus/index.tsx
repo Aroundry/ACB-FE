@@ -10,14 +10,16 @@ import Check from '@icons/Check.png';
 import useOpenModal from '@components/Modal/useOpenModal';
 import Modal from '@components/Modal';
 import { useEffect, useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   deleteObjectFromListAtom,
   receptionCompleteAtom,
   receptionDataAtom,
   receptionDetailDataAtom,
-  ReceptionDataTypes,
 } from '@atoms/reception';
+import ReceptionData from 'src/types/ReceptionData';
+import useGetReception from '@hooks/queries/useGetReception';
+import { userState } from '@atoms/userState';
 
 const ReceptionStatus = () => {
   const {
@@ -45,7 +47,7 @@ const ReceptionStatus = () => {
   };
   const handleOnEnter = (name: string) => {
     if (name === '') {
-      setDeleteObjectFromList(!deleteObjectFromList);
+      setDeleteObjectFromList(false);
       setSearchData(undefined);
       return;
     }
@@ -63,10 +65,10 @@ const ReceptionStatus = () => {
       handleOnEnter(SearchText);
     }
   };
-  const tableDataList = (datalist: ReceptionDataTypes[]) => {
+  const tableDataList = (datalist: ReceptionData[]) => {
     if (searchData) {
-      return searchData.slice(offset, offset + limit);
-    } else return datalist.slice(offset, offset + limit);
+      return searchData?.slice(offset, offset + limit);
+    } else return datalist?.slice(offset, offset + limit);
   };
 
   const [page, setPage] = useState(1); //페이지
@@ -75,131 +77,28 @@ const ReceptionStatus = () => {
   const [isLeftArrowAvailable, setIsLeftArrowAvailable] = useState(''); // pagination의 활성화 여부 판단
   const [isRightArrowAvailable, setIsRightArrowAvailable] = useState('');
 
-  const dummyDataList = [
-    {
-      name: '권상욱',
-      number: '010-4641-1242',
-      address: '세종대학교 학생회관 518호',
-      receptionItem: '티셔츠 1개, 신발 4개, 코트 1개, 청바지 2개, 패딩 2개',
-      date: '2022-02-08 오후 02시 30분',
-      request:
-        '코트에 얼룩이 있습니다. 드라이 부탁드립니다. 나머지는 세탁해주세요.',
-      status: 'show',
-    },
-    {
-      name: '권동석',
-      number: '010-4722-3462',
-      address: '세종대학교 301호',
-      receptionItem: '코트 1개, 신발 1개, 패딩 1개',
-      date: '2022-02-07 오후 06시 30분',
-      request: '',
-      status: 'show',
-    },
-    {
-      name: '윤현지',
-      number: '010-2146-4136',
-      address: '세종대학교 1102호',
-      receptionItem: '청바지 1개',
-      date: '2022-02-07 오후 01시 00분',
-      request: '동전 확인해주세요',
-      status: 'show',
-    },
-    {
-      name: '주이식',
-      number: '010-4641-1242',
-      address: '세종대학교 학생회관 518호',
-      receptionItem: '티셔츠 1개, 신발 4개, 코트 1개, 청바지 2개, 패딩 2개',
-      date: '2022-02-08 오후 02시 30분',
-      request:
-        '코트에 얼룩이 있습니다. 드라이 부탁드립니다. 나머지는 세탁해주세요.',
-      status: 'show',
-    },
-    {
-      name: '오경식',
-      number: '010-4722-3462',
-      address: '세종대학교 301호',
-      receptionItem: '코트 1개, 신발 1개, 패딩 1개',
-      date: '2022-02-07 오후 06시 30분',
-      request: '',
-      status: 'show',
-    },
-    {
-      name: '박태완',
-      number: '010-2146-4136',
-      address: '세종대학교 1102호',
-      receptionItem: '청바지 1개',
-      date: '2022-02-07 오후 01시 00분',
-      request: '동전 확인해주세요',
-      status: 'show',
-    },
-    {
-      name: '임근택',
-      number: '010-4641-1242',
-      address: '세종대학교 학생회관 518호',
-      receptionItem: '티셔츠 1개, 신발 4개, 코트 1개, 청바지 2개, 패딩 2개',
-      date: '2022-02-08 오후 02시 30분',
-      request:
-        '코트에 얼룩이 있습니다. 드라이 부탁드립니다. 나머지는 세탁해주세요.',
-      status: 'show',
-    },
-    {
-      name: '김우혁',
-      number: '010-4722-3462',
-      address: '세종대학교 301호',
-      receptionItem: '코트 1개, 신발 1개, 패딩 1개',
-      date: '2022-02-07 오후 06시 30분',
-      request: '',
-      status: 'show',
-    },
-    {
-      name: '김정호',
-      number: '010-2146-4136',
-      address: '세종대학교 1102호',
-      receptionItem: '청바지 1개',
-      date: '2022-02-07 오후 01시 00분',
-      request: '동전 확인해주세요',
-      status: 'show',
-    },
-    {
-      name: '허인주',
-      number: '010-4641-1242',
-      address: '세종대학교 학생회관 518호',
-      receptionItem: '티셔츠 1개, 신발 4개, 코트 1개, 청바지 2개, 패딩 2개',
-      date: '2022-02-08 오후 02시 30분',
-      request:
-        '코트에 얼룩이 있습니다. 드라이 부탁드립니다. 나머지는 세탁해주세요.',
-      status: 'show',
-    },
-    {
-      name: '김동균',
-      number: '010-4722-3462',
-      address: '세종대학교 301호',
-      receptionItem: '코트 1개, 신발 1개, 패딩 1개',
-      date: '2022-02-07 오후 06시 30분',
-      request: '',
-      status: 'show',
-    },
-    {
-      name: '이병무',
-      number: '010-2146-4136',
-      address: '세화빌딩 1102호',
-      receptionItem: '청바지 1개',
-      date: '2022-02-07 오후 01시 00분',
-      request: '동전 확인해주세요',
-      status: 'show',
-    },
-  ];
-
   let id: number = -1;
 
+  const { data } = useGetReception();
+  console.log('receptionData: ', receptionData);
   useEffect(() => {
     id = -1;
-    let dummy = dummyDataList.map((it) => {
+    let dummy = data?.map((it) => {
       id++;
-      return { ...it, id: id };
+      return {
+        name: it.name,
+        number: it.phone_number,
+        address: it.address,
+        receptionItem: it.laundry_item,
+        date: it.collection_date,
+        request: it.request_memo,
+        status: it.status,
+        receptionId: it.reception_id,
+        id: id,
+      };
     });
     setReceptionData(dummy);
-  }, []);
+  }, [data]);
 
   useEffect(() => {
     setPage(1);
@@ -214,7 +113,7 @@ const ReceptionStatus = () => {
   }, [searchData]);
 
   useEffect(() => {
-    if (receptionData.length > 10) setIsRightArrowAvailable('true');
+    if (receptionData?.length > 10) setIsRightArrowAvailable('true');
     else setIsRightArrowAvailable('false');
   }, [receptionData]);
 
@@ -246,6 +145,8 @@ const ReceptionStatus = () => {
       setDeleteObjectFromList(false);
     }
   }, [receptionComplete, deleteObjectFromList]);
+
+  if (!receptionData) return <div>로딩중...</div>;
   return (
     <Wrapper>
       <Title>접수현황</Title>

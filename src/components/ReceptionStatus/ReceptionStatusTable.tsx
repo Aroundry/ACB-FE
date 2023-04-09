@@ -14,6 +14,7 @@ interface ReceptionDataTypes {
   date: string;
   request: string;
   status: string;
+  receptionId: string;
 }
 
 interface Pros {
@@ -35,7 +36,7 @@ const ReceptionStatusTable = ({ tableData }: Pros) => {
         <TableRequestTitle>요청사항</TableRequestTitle>
       </TableHeader>
       {tableData
-        .filter((it) => it.status === 'show')
+        .filter((it) => it.status === 'RECEPTION')
         .map((it) => {
           return (
             // 추후에 key 추가예정

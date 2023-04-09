@@ -2,8 +2,10 @@ import { LoginPageHeader } from '@components/Header';
 import IntroductionPhrase from '@components/IntroductionPhrase';
 import LoginForm from '@components/LoginForm';
 import styled from '@emotion/styled';
+import useAuth from 'src/hooks/useAuth';
 
 export default function login() {
+  useAuth(false);
   return (
     <>
       <LoginPageWrapper>
@@ -13,6 +15,7 @@ export default function login() {
           <IntroductionPhrase />
         </BodyWrapper>
       </LoginPageWrapper>
+      )
     </>
   );
 }

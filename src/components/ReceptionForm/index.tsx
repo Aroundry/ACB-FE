@@ -1,32 +1,88 @@
 import styled from '@emotion/styled';
+import usePostReceptionMutation from '@hooks/queries/usePostReceptionMutation';
+import useInput from '@hooks/useInput';
 import Check from '@icons/Check.png';
 import Image from 'next/image';
+import { ChangeEvent, useCallback, useState } from 'react';
+import {
+  addressValidator,
+  collectionDateValidator,
+  laundryItemValidator,
+  nameValidator,
+  phoneNumberValidator,
+  requestMemoValidator,
+} from 'src/utils/validationUtils';
 
-const ReceptionForm = () => {
+const ReceptionForm = ({ masterId }: any) => {
+  const today = new Date();
+  const month = `0${today.getMonth() + 1}`;
+  const minTime = `${today.getFullYear()}-${month}-${today.getDate()}T${today.getHours()}:${today.getMinutes()}`;
+  const { mutate } = usePostReceptionMutation();
+
+  const [name, onChangeName, nameError] = useInput(nameValidator);
+  const [phoneNumber, onChangePhoneNumber, phoneNumberError] =
+    useInput(phoneNumberValidator);
+  const [address, onChangeAddress, addressError] = useInput(addressValidator);
+  const [laundryItem, onChangeLoundryItem, loundryItemError] =
+    useInput(laundryItemValidator);
+  const [requestMemo, onChangeRequestMemo, requestMemoError] =
+    useInput(requestMemoValidator);
+  const [collectionDate, onChangeCollectionDate, collectionDateError] =
+    useInput(collectionDateValidator);
+
+  const onClickReception = async () => {
+    try {
+      mutate({
+        masterId: masterId,
+        name,
+        phoneNumber,
+        address,
+        laundryItem,
+        requestMemo,
+        collectionDate,
+      });
+    } catch (error: any) {}
+  };
+
   return (
     <Wrapper>
       <Title>세탁 접수</Title>
       <FormBox>
         <FormLabel>이름</FormLabel>
-        <FormInput placeholder="이름 입력"></FormInput>
+        <FormInput onChange={onChangeName} placeholder="이름 입력"></FormInput>
         <FormLabel>전화번호</FormLabel>
-        <FormInput type="number" placeholder="전화번호 입력"></FormInput>
+        <FormInput
+          onChange={onChangePhoneNumber}
+          placeholder="전화번호 입력"
+        ></FormInput>
         <FormLabel>주소</FormLabel>
-        <FormInput placeholder="주소 입력"></FormInput>
+        <FormInput
+          onChange={onChangeAddress}
+          placeholder="주소 입력"
+        ></FormInput>
         <FormLabel>접수품목</FormLabel>
-        <FormInput placeholder="접수품목 입력"></FormInput>
+        <FormInput
+          onChange={onChangeLoundryItem}
+          placeholder="접수품목 입력"
+        ></FormInput>
         <FormLabel>수거요청 시간 및 날짜</FormLabel>
         <FormInput
           type="datetime-local"
           placeholder="수거요청 시간 및 날짜 입력"
+          onChange={onChangeCollectionDate}
+          min={minTime}
+          onKeyDown={(e) => e.preventDefault()}
         ></FormInput>
         <FormLabel>요청사항</FormLabel>
-        <FormInput placeholder="요청사항 입력"></FormInput>
-        <ReceptionCompleteButton>
-          <Image src={Check} alt="체크" />
-          접수하기
-        </ReceptionCompleteButton>
+        <FormInput
+          onChange={onChangeRequestMemo}
+          placeholder="요청사항 입력"
+        ></FormInput>
       </FormBox>
+      <ReceptionCompleteButton onClick={onClickReception}>
+        <Image src={Check} alt="체크" />
+        접수하기
+      </ReceptionCompleteButton>
     </Wrapper>
   );
 };

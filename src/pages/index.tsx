@@ -2,16 +2,22 @@ import { ReceptionPageHeader } from '@components/Header';
 import Navigation from '@components/Navigation';
 import ReceptionStatus from '@components/ReceptionStatus';
 import styled from '@emotion/styled';
+import useAuth from 'src/hooks/useAuth';
 
 export default function Home() {
+  useAuth();
+
   return (
-    <ReceptionPageWrapper>
-      <ReceptionPageHeader />
-      <Navigation />
-      <BodyWrapper>
-        <ReceptionStatus />
-      </BodyWrapper>
-    </ReceptionPageWrapper>
+    <>
+      <ReceptionPageWrapper>
+        <ReceptionPageHeader />
+        <Navigation />
+        <BodyWrapper>
+          <ReceptionStatus />
+        </BodyWrapper>
+      </ReceptionPageWrapper>
+      )
+    </>
   );
 }
 

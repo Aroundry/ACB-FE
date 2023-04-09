@@ -1,16 +1,37 @@
 import styled from '@emotion/styled';
-import Check from '@icons/Check.png';
-import Image from 'next/image';
+import useInput from '@hooks/useInput';
+import { useCallback, useState } from 'react';
+import { phoneNumberValidator } from 'src/utils/validationUtils';
+import ReceptionCheckTable from './ReceptionCheckTable';
 
 const ReceptionCheck = () => {
+  const [phoneNumber, onChangePhoneNumber, phoneNumberError] =
+    useInput(phoneNumberValidator);
+  const [show, setShow] = useState(false);
+  const onCilckCheck = () => {
+    setShow(true);
+  };
+  const onChangeShow = useCallback(() => {
+    setShow(false);
+  }, [show]);
+
   return (
     <Wrapper>
       <Title>접수 조회</Title>
-      <FormBox>
-        <FormLabel>전화번호</FormLabel>
-        <FormInput placeholder="전화번호 입력"></FormInput>
-      </FormBox>
-      <TableWrapper></TableWrapper>
+      <Container>
+        <FormBox>
+          <FormLabel>전화번호</FormLabel>
+          <FormInput
+            placeholder="전화번호 입력"
+            onChange={(e) => {
+              onChangeShow();
+              onChangePhoneNumber(e);
+            }}
+          ></FormInput>
+        </FormBox>
+        <CheckButton onClick={onCilckCheck}>조회</CheckButton>
+      </Container>
+      {show && <ReceptionCheckTable phoneNumber={phoneNumber} />}
     </Wrapper>
   );
 };
@@ -39,6 +60,15 @@ const Title = styled.div`
   margin-bottom: 24px;
 `;
 
+const Container = styled.div`
+  display: grid;
+  grid-template-columns: 9fr 1fr;
+
+  gap: 22px;
+
+  margin-bottom: 30px;
+`;
+
 const FormBox = styled.form`
   position: relative;
   display: flex;
@@ -58,7 +88,6 @@ const FormLabel = styled.label`
 
 const FormInput = styled.input`
   box-sizing: border-box;
-  width: 90vw;
   height: 50px;
   border: 1px solid #e5e8eb;
   box-shadow: 0px 0px 3px rgba(229, 232, 235, 0.25);
@@ -71,8 +100,6 @@ const FormInput = styled.input`
   font-size: 20px;
   line-height: 29px;
 
-  margin-bottom: 24px;
-
   ::placeholder {
     font-family: 'Pretendard';
     font-style: normal;
@@ -84,12 +111,29 @@ const FormInput = styled.input`
   }
 `;
 
-const TableWrapper = styled.div`
-  width: 90vw;
-  height: 30vh;
+const CheckButton = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 
+  width: 10vw;
+  min-width: 100px;
+  height: 50px;
+
+  border: none;
+  cursor: default;
+  background: #6d6dff;
   border-radius: 7px;
-  background-color: #928f8f50;
+
+  font-family: 'Pretendard';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 29px;
+  margin-top: 33px;
+  color: #ffffff;
+
+  cursor: pointer;
 `;
 
 export default ReceptionCheck;

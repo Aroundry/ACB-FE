@@ -1,26 +1,60 @@
 import styled from '@emotion/styled';
-import Link from 'next/link';
+import useHttpPost from 'src/hooks/http/useHttpPost';
+import useInput from 'src/hooks/useInput';
+import useLogin from 'src/hooks/useLogin';
+import { idValidator, passwordValidator } from 'src/utils/validationUtils';
+import { useRouter } from 'next/router';
 
 const LoginForm = () => {
+  const router = useRouter();
+  const [userId, onChangeUserId, userIdError] = useInput(idValidator);
+  const [password, onChangePassword, passwordError] =
+    useInput(passwordValidator);
+  const { post } = useHttpPost();
+  const login = useLogin();
+
+  const checkFormValidation = () => {
+    return userId && password;
+  };
+
+  const onSubmitLogin = async (event: any) => {
+    event.preventDefault();
+    if (!checkFormValidation()) return;
+    try {
+      const response: any = await post('/auth/signin', { userId, password });
+      login(response.data);
+      console.log(response.data);
+      router.push('/');
+    } catch (error: any) {
+      console.log(error);
+      alert(error.message);
+    }
+  };
+
   return (
     <LoginFormWrapper>
-      <LoginFormTitle>어라운드리 카카오 톡 채널 서비스 로그인</LoginFormTitle>
+      <LoginFormTitle>어라운드리 카카오톡 채널 서비스 로그인</LoginFormTitle>
       <LoginFormBox>
         <LoginFormLabel>아이디</LoginFormLabel>
-        <LoginFormInput placeholder="아이디 입력"></LoginFormInput>
+        <LoginFormInput
+          placeholder="아이디 입력"
+          type="text"
+          onChange={onChangeUserId}
+        ></LoginFormInput>
         <LoginFormLabel>비밀번호</LoginFormLabel>
         <LoginFormInput
           type="password"
           placeholder="비밀번호 입력"
+          onChange={onChangePassword}
         ></LoginFormInput>
       </LoginFormBox>
-      <AutoLoginWrapper>
+      <LoginButton onClick={onSubmitLogin}>로그인</LoginButton>
+      {/* <AutoLoginWrapper>
         <AutoLoginButton></AutoLoginButton>
         <AutoLoginText>자동로그인</AutoLoginText>
-      </AutoLoginWrapper>
-      <Link href={'/'}>
-        <LoginButton>로그인</LoginButton>
-      </Link>
+      </AutoLoginWrapper> */}
+      {/* <Link href={'/'}> */}
+      {/* </Link> */}
     </LoginFormWrapper>
   );
 };
@@ -182,7 +216,7 @@ const AutoLoginText = styled.div`
   }
 `;
 
-const LoginButton = styled.div`
+const LoginButton = styled.button`
   display: flex;
   flex-direction: row;
   justify-content: center;

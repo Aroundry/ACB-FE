@@ -31,6 +31,15 @@ const ReceptionForm = ({ masterId }: any) => {
     useInput(collectionDateValidator);
 
   const onClickReception = async () => {
+    console.log({
+      masterId: masterId,
+      name,
+      phoneNumber,
+      address,
+      laundryItem,
+      requestMemo,
+      collectionDate,
+    });
     try {
       mutate({
         masterId: masterId,

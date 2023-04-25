@@ -1,22 +1,12 @@
 import { atom } from 'recoil';
+import ReceptionData from 'src/types/ReceptionData';
 
-interface ReceptionDataTypes {
-  id: number;
-  name: string;
-  number: string;
-  address: string;
-  receptionItem: string;
-  date: string;
-  request: string;
-  status: string;
-}
-
-const receptionDataAtom = atom<ReceptionDataTypes[]>({
+const receptionDataAtom = atom<ReceptionData[]>({
   key: 'receptionData',
   default: [],
 });
 
-const receptionDetailDataAtom = atom<ReceptionDataTypes>({
+const receptionDetailDataAtom = atom<ReceptionData>({
   key: 'receptionDetailData',
   default: {
     id: -1,
@@ -27,6 +17,7 @@ const receptionDetailDataAtom = atom<ReceptionDataTypes>({
     date: '',
     request: '',
     status: '',
+    receptionId: '',
   },
 });
 
@@ -46,4 +37,3 @@ export {
   receptionCompleteAtom,
   deleteObjectFromListAtom,
 };
-export type { ReceptionDataTypes };

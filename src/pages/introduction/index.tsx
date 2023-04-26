@@ -60,7 +60,7 @@ const MainCopyright = styled.div`
   font-family: 'Pretendard';
   font-style: normal;
   font-weight: 700;
-  font-size: 64px;
+  font-size: 58px;
   line-height: 140%;
 
   color: #fae100;
@@ -71,12 +71,12 @@ const SubCopyright = styled.div`
   width: 504px;
   height: 86px;
   left: 172px;
-  top: 366px;
+  top: 346px;
 
   font-family: 'Pretendard';
   font-style: normal;
   font-weight: 400;
-  font-size: 36px;
+  font-size: 30px;
   line-height: 43px;
 
   color: #ffffff;
@@ -86,7 +86,7 @@ const Highlight = styled.span`
   font-family: 'Pretendard';
   font-style: normal;
   font-weight: 800;
-  font-size: 36px;
+  font-size: 30px;
   line-height: 43px;
 
   color: #ffffff;
@@ -109,7 +109,7 @@ const ReceptionPageWrapper = styled.div`
   position: absolute;
   width: 906px;
   height: 579px;
-  top: 180px;
+  top: 160px;
   left: 1020px;
 `;
 
